@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS · Customer Success · Seguimiento Clientes · 04 Junio 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+  :root {
+    --navy:      #1B2B4B;
+    --navy-mid:  #243858;
+    --teal:      #2E7D6B;
+    --blue:      #3B6EA5;
+    --amber:     #C07D1A;
+    --red:       #A83232;
+    --green:     #2E7D6B;
+    --bg:        #F4F6F9;
+    --surface:   #FFFFFF;
+    --border:    #D4DAEA;
+    --border-lt: #E8ECF3;
+    --text-1:    #111827;
+    --text-2:    #374151;
+    --text-3:    #6B7280;
+    --text-4:    #9CA3AF;
+    --rec-bg:    #FDF3F3;
+    --rec-border:#E8C5C5;
+    --exp-bg:    #F0FAF6;
+    --exp-border:#A8D9C8;
+    --rev-bg:    #EEF4FB;
+    --rev-border:#B8CFEA;
+    --poc-bg:    #FDF8EE;
+    --poc-border:#E0C87A;
+  }
+
+
+  /* ── ACTUALIZACIONES v1.2 ── */
+  .upd { background: #FFF9C4; border-left: 3px solid #F0C040; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+  .upd-block { background: #FFFDE7; border: 1.5px solid #F9D44A; border-radius: 5px; padding: 8px 12px; margin-top: 6px; font-size: 11px; color: #5C4A00; line-height: 1.6; }
+  .upd-block strong { color: #3D3000; }
+  .stk { text-decoration: line-through; opacity: 0.5; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #E2E8F0;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 48px;
+    gap: 16px;
+    min-height: 100vh;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 1280px;
+  }
+  .ctrl-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 6px 18px;
+    border: 1px solid #94A3B8;
+    border-radius: 5px;
+    background: #fff;
+    color: #475569;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .ctrl-btn:hover { background: #F1F5F9; color: #1e293b; }
+  .ctrl-btn:disabled { opacity: 0.3; cursor: default; }
+  .slide-counter { flex: 1; text-align: center; font-size: 12px; color: #64748B; letter-spacing: 0.08em; text-transform: uppercase; }
+  .dots-wrap { display: flex; gap: 5px; align-items: center; }
+  .ndot { width: 5px; height: 5px; border-radius: 50%; background: #94A3B8; cursor: pointer; transition: all .2s; }
+  .ndot.active { background: var(--navy); width: 16px; border-radius: 3px; }
+  .ndot.detail { background: #CBD5E1; }
+  .ndot.detail.active { background: #64748B; width: 10px; }
+
+  /* ── DECK ── */
+  .deck {
+    width: 100%;
+    max-width: 1280px;
+    position: relative;
+    border-radius: 3px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.1);
+  }
+
+  .slide {
+    position: relative;
+    background: var(--surface);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .slide.active { display: flex; }
+
+  /* ── HEADER BAND ── */
+  .slide-band {
+    background: var(--navy);
+    padding: 14px 48px 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .band-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 3px;
+  }
+  .band-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .band-sub { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .band-right { text-align: right; }
+  .band-num { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.06em; }
+  .band-date { font-size: 10px; color: rgba(255,255,255,0.2); margin-top: 1px; }
+
+  /* ── BODY ── */
+  .slide-body {
+    padding: 22px 48px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: auto;
+    background: var(--bg);
+  }
+
+  /* ── FOOTER ── */
+  .slide-foot {
+    padding: 8px 48px 10px;
+    background: var(--surface);
+    border-top: 1px solid var(--border-lt);
+    font-size: 11px;
+    color: var(--text-3);
+    flex-shrink: 0;
+  }
+  .slide-foot strong { color: var(--text-2); }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .b-rec  { background: var(--rec-bg);  color: var(--red);   border: 1px solid var(--rec-border); }
+  .b-exp  { background: var(--exp-bg);  color: var(--green); border: 1px solid var(--exp-border); }
+  .b-rev  { background: var(--rev-bg);  color: var(--blue);  border: 1px solid var(--rev-border); }
+  .b-poc  { background: var(--poc-bg);  color: var(--amber); border: 1px solid var(--poc-border); }
+  .b-done { background: #ECFAF4; color: #1A6B4A; border: 1px solid #A8D9C4; }
+  .b-plan { background: #EEF4FB; color: #2558A0; border: 1px solid #B0CAEB; }
+  .b-next { background: #FDF8EE; color: #9A6010; border: 1px solid #DFC57A; }
+  .b-tbd  { background: #F3F4F6; color: #6B7280; border: 1px solid #D1D5DB; }
+  .b-warn { background: #FEF9EC; color: #92590A; border: 1px solid #E0C87A; }
+
+  /* ── PORTFOLIO SLIDE ── */
+  .pf-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; flex: 1; }
+  .pf-col { display: flex; flex-direction: column; gap: 8px; }
+  .pf-col-hd {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-3); padding-bottom: 7px; border-bottom: 2px solid var(--border);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .pf-col-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .pf-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
+    padding: 10px 12px; cursor: pointer; transition: border-color .15s, box-shadow .15s;
+  }
+  .pf-card:hover { border-color: var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .pf-lbl { font-size: 9px; font-weight: 600; color: var(--text-4); letter-spacing: 0.05em; margin-bottom: 3px; }
+  .pf-name { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .pf-body { font-size: 11px; color: var(--text-3); line-height: 1.5; }
+
+  /* ── RECUPERACIÓN SLIDE ── */
+  .rec-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; flex: 1; min-height: 0; }
+  .rec-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px 16px; display: flex; flex-direction: column;
+    cursor: pointer; transition: border-color .15s; overflow: hidden; min-height: 0;
+  }
+  .rec-card:hover { border-color: var(--red); }
+  .rec-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; flex-shrink: 0; }
+  .rc-name { font-size: 19px; font-weight: 700; color: var(--navy); }
+  .rc-type { font-size: 10px; color: var(--text-3); margin-top: 1px; }
+  .rc-body { font-size: 11px; color: var(--text-2); line-height: 1.5; flex-shrink: 0; }
+  .focos { display: flex; flex-direction: column; gap: 2px; margin-top: 6px; flex: 1; min-height: 0; }
+  .foco-row { display: flex; align-items: flex-start; gap: 7px; font-size: 10.5px; color: var(--text-3); }
+  .foco-row.done { color: var(--green); font-weight: 500; }
+  .foco-mk { flex-shrink: 0; margin-top: 1px; }
+  .rc-link { font-size: 10px; color: var(--blue); display: flex; align-items: center; gap: 3px; flex-shrink: 0; margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--border-lt); font-weight: 500; }
+  .rec-card:hover .rc-link { color: var(--navy); }
+
+  /* ── ESTADO SLIDE (Itaú·CCB·Corrientes) ── */
+  .estado-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; flex: 1; }
+  .ec-col { display: flex; flex-direction: column; gap: 10px; }
+  .ec-name { font-size: 22px; font-weight: 700; color: var(--navy); }
+  .ec-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 12px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px;
+  }
+  .ec-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-4); margin-bottom: 2px; }
+  .ec-body { font-size: 11px; color: var(--text-2); line-height: 1.6; }
+  .ec-warn {
+    background: var(--poc-bg); border: 1px solid var(--poc-border);
+    border-radius: 5px; padding: 8px 10px;
+    font-size: 10px; color: #7A4D0A; line-height: 1.5;
+  }
+  .ec-warn strong { color: #5C3A08; }
+  .ec-hitos { display: flex; flex-direction: column; gap: 3px; }
+  .ec-hito { font-size: 11px; color: var(--text-3); display: flex; gap: 7px; }
+  .ec-resp { font-size: 10px; color: var(--text-4); }
+
+  /* ── POC SLIDE ── */
+  .poc-warn {
+    background: var(--poc-bg); border: 1.5px solid var(--poc-border);
+    border-radius: 6px; padding: 12px 16px;
+    display: flex; gap: 12px; align-items: flex-start; flex-shrink: 0;
+  }
+  .poc-icon { font-size: 18px; flex-shrink: 0; }
+  .poc-title { font-size: 13px; font-weight: 700; color: #7A4D0A; margin-bottom: 3px; }
+  .poc-body { font-size: 11px; color: #5C3A08; line-height: 1.5; }
+  .poc-items { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .poc-row {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .poc-ico {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .pi-amb { background: var(--poc-bg); color: #92590A; }
+  .pi-pur { background: #F0EEFF; color: #5B3FD6; }
+  .poc-row-title { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+  .poc-row-body { font-size: 11px; color: var(--text-2); line-height: 1.5; }
+
+  /* ── ACTION TABLE ── */
+  .act-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .act-table th {
+    text-align: left; padding: 7px 10px;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-3); border-bottom: 1.5px solid var(--border);
+    background: var(--surface);
+  }
+  .act-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-lt); color: var(--text-1); vertical-align: top; line-height: 1.4; }
+  .act-table tr:last-child td { border-bottom: none; }
+  .act-table tr:hover td { background: #F8FAFC; }
+  .td-resp { font-size: 10px; color: var(--text-3); }
+  .td-crit { color: var(--red); font-weight: 600; }
+  .td-hi   { color: var(--amber); font-weight: 600; }
+  .pip { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: 1px; }
+  .pip-hi  { background: var(--red); }
+  .pip-med { background: var(--amber); }
+  .pip-low { background: var(--green); }
+
+  /* ── CLOSE SLIDE ── */
+  .close-hero { padding: 0 0 12px 0; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .close-h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); line-height: 1.1; }
+  .close-h2 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--teal); line-height: 1.1; }
+  .close-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; flex: 1; }
+  .close-col { display: flex; flex-direction: column; gap: 6px; }
+  .close-col-hd { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .close-item { display: flex; gap: 8px; align-items: flex-start; font-size: 11px; color: var(--text-2); line-height: 1.5; }
+  .close-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); flex-shrink: 0; margin-top: 5px; }
+  .close-item strong { color: var(--navy); font-weight: 600; }
+
+  /* ── DETAIL SLIDES ── */
+  .det-band {
+    background: var(--rec-bg); border-bottom: 1px solid var(--rec-border);
+    padding: 12px 48px; display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+  }
+  .back-btn {
+    font-family: 'DM Sans', sans-serif; font-size: 11px; padding: 4px 12px;
+    border: 1px solid var(--border); border-radius: 4px;
+    background: var(--surface); color: var(--text-3); cursor: pointer; white-space: nowrap;
+    transition: all .15s;
+  }
+  .back-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .det-title { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--navy); flex: 1; }
+  .det-sub { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+
+  /* Assegur releases */
+  .rel-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; flex-shrink: 0; }
+  .rel-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
+    padding: 10px 12px; display: flex; flex-direction: column; gap: 5px;
+  }
+  .rel-card.done { border-color: var(--exp-border); background: var(--exp-bg); }
+  .rel-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; margin-bottom: 2px; }
+  .rel-code { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-3); }
+  .rel-item { font-size: 10px; color: var(--text-2); display: flex; gap: 5px; line-height: 1.5; }
+  .rel-item.done { color: var(--green); font-weight: 500; }
+
+  /* Ejes */
+  .ejes-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; flex: 1; }
+  .eje-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
+    padding: 10px 12px;
+  }
+  .eje-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 5px; }
+  .eje-pct { font-size: 22px; font-weight: 700; margin-bottom: 5px; }
+  .eje-item { font-size: 10px; color: var(--text-3); line-height: 1.55; }
+  .eje-bar { height: 3px; border-radius: 2px; margin-bottom: 6px; }
+
+  /* Sudameris focos */
+  .fd-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; flex: 1; }
+  .fd-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
+    padding: 12px 14px; display: flex; flex-direction: column; gap: 5px;
+  }
+  .fd-card.done { border-color: var(--exp-border); }
+  .fd-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; }
+  .fd-code { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-4); }
+  .fd-title { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .fd-body { font-size: 11px; color: var(--text-2); line-height: 1.5; flex: 1; }
+  .fd-impact { font-size: 8px; font-weight: 700; letter-spacing: 0.05em; color: var(--red); text-transform: uppercase; margin-top: 3px; }
+
+  /* placeholder */
+  .placeholder {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 10px; opacity: 0.35;
+    font-size: 12px; color: var(--text-3); text-align: center; line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button class="ctrl-btn" id="btn-prev" onclick="navigate(-1)" disabled="">← Anterior</button>
+  <span class="slide-counter" id="counter">1 / 4</span>
+  <div class="dots-wrap" id="dots"><div class="ndot active"></div><div class="ndot"></div><div class="ndot"></div><div class="ndot"></div><div class="ndot detail"></div><div class="ndot detail"></div><div class="ndot detail"></div><div class="ndot detail"></div></div>
+  <button class="ctrl-btn" id="btn-next" onclick="navigate(1)">Siguiente →</button>
+  <button class="ctrl-btn" id="btn-edit" style="">✏ Editar</button>
+  <button class="ctrl-btn" id="btn-save" style="font-weight:600;border-color:#3B6EA5;color:#3B6EA5">☁ Guardar</button>
+</div>
+
+<div id="edit-hint" style="display: none; text-align: center; font-size: 11px; color: rgb(59, 110, 165); padding: 4px 0px; width: 100%; max-width: 1280px; margin: 0px auto;">Clic en cualquier texto para editarlo · Enter o Esc para confirmar · luego presioná ☁ Guardar para descargar el archivo con tus cambios</div>
+
+<div class="deck" style="">
+
+<!-- ══ S1: PORTFOLIO (one page 28 mayo) ══ -->
+<div class="slide active" id="s1">
+  <div class="slide-band">
+    <div>
+      <div class="band-eyebrow">CS · Customer Success · Seguimiento Clientes</div>
+      <div class="band-title">Seguimiento de Clientes.</div>
+      <div class="band-sub">04 Junio 2026</div>
+    </div>
+    <div class="band-right"><div class="band-num">01 / 07</div><div class="band-date">04 Junio 2026</div></div>
+  </div>
+  <div class="slide-body" style="padding:12px 28px 10px;gap:8px;overflow-y:auto">
+
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;flex:1;min-height:0">
+
+      <!-- COL 1: REVERSIÓN -->
+      <div style="display: flex; flex-direction: column; gap: 5px; min-height: 0;" spellcheck="false">
+        <div style="display: flex; align-items: center; gap: 5px; padding-bottom: 5px; border-bottom: 2px solid rgb(139, 0, 0); flex-shrink: 0;" spellcheck="false">
+          <div style="width:7px;height:7px;border-radius:50%;background:#8B0000;flex-shrink:0"></div>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#8B0000">Reversión/CAIDA</span>
+        </div>
+        <div style="background:#FFF5F5;border:2px solid #8B0000;border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:3px;flex-shrink:0">
+          <div style="font-size: 8px; color: rgb(139, 0, 0); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;" spellcheck="false">Reversión/CAIDA</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">CCI</div>
+          <div style="height:1px;background:#E8C5C5;margin:2px 0"></div>
+          <div style="display:flex;flex-direction:column;gap:3px;margin-top:1px">
+            <div style="display:flex;align-items:flex-start;gap:4px;font-size:8.5px;color:#8B0000;font-weight:600">
+              <span style="flex-shrink:0;margin-top:0px">▲</span><span>Propuesta Solución SaaS</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:4px;font-size:8.5px;color:#8B0000;font-weight:600">
+              <span style="flex-shrink:0">▲</span><span>Demo Flujos en Flowable</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:4px;font-size:8.5px;color:#8B0000;font-weight:600">
+              <span style="flex-shrink:0">▲</span><span>Propuesta NRT</span>
+            </div>
+            <div style="height:4px"></div>
+            <div style="display:flex;align-items:flex-start;gap:4px;font-size:8.5px;color:#8B0000;font-weight:600">
+              <span style="flex-shrink:0">⚠</span><span>Propuesta nuevo ambiente, SaaS, con Flowable — 2 meses</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:4px;font-size:8.5px;color:#8B0000;font-weight:600;padding-left:14px">
+              Revisar alternativa para DEMO de Flujos y beneficios nueva herramienta
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COL 2: RECUPERACIÓN -->
+      <div style="display:flex;flex-direction:column;gap:5px;min-height:0">
+        <div style="display:flex;align-items:center;gap:5px;padding-bottom:5px;border-bottom:1.5px solid var(--border);flex-shrink:0">
+          <div style="width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0"></div>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3)">Recuperación</span>
+        </div>
+        <div onclick="goTo(1)" style="background:var(--surface);border:1.5px solid var(--red);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">Corrección (Fix &amp; Realignment)</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">Assegur</div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Release 1.9.0 · 9/6: en curso</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Plan de estabilidad en curso</span></div>
+          <div style="font-size:8.5px;color:var(--green);font-weight:600;display:flex;gap:3px;align-items:center"><span>↗</span><span>Trabajo en transición</span></div>
+        </div>
+        <div onclick="goTo(1)" style="background:var(--surface);border:1.5px solid var(--red);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">Contención (Stabilization)</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">Sudameris</div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Entrega Release 2.0.36 — 9/6</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>P2 - Migración a Servicios Administrados — En curso · Reunión pautada 3/6</span></div>
+          <div style="font-size:8.5px;color:var(--red);font-weight:600;display:flex;gap:3px;align-items:flex-start"><span>⚠</span><span>Cliente solicita en detalle la reducción de costos.</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>P3 - Tickets de Cambio — En curso</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>P5 - Paquete 10 reqs priorizados — Refinamiento finalizado</span></div>
+          <div style="font-size:8.5px;color:var(--green);font-weight:600;display:flex;gap:3px;align-items:center"><span>↗</span><span>Trabajo en transición</span></div>
+        </div>
+        <div onclick="goTo(1)" style="background:var(--surface);border:1.5px solid var(--red);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">Contención (Stabilization)</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">Basa</div>
+          <div style="font-size:9px;color:var(--text-2)">Migración servicios administrados – DEV OK – QA en curso</div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Entrega release 2.3.2 para certificación de cliente: 4/6</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Paquete 2 y 3 · 9 requerimientos priorizados</span></div>
+          <div style="font-size:8.5px;color:var(--green);font-weight:600;display:flex;gap:3px;align-items:center"><span>↗</span><span>Trabajo en transición</span></div>
+        </div>
+      </div>
+
+      <!-- COL 3: EXPANSIÓN -->
+      <div style="display: flex; flex-direction: column; gap: 5px; min-height: 0;" spellcheck="false">
+        <div style="display:flex;align-items:center;gap:5px;padding-bottom:5px;border-bottom:1.5px solid var(--border);flex-shrink:0">
+          <div style="width:7px;height:7px;border-radius:50%;background:#2E7D6B;flex-shrink:0"></div>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3)">Expansión</span>
+        </div>
+        <div onclick="goTo(2)" style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">Expansión / Confianza (Growth)</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">Itaú</div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Backlog priorizado</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Próximos 3 sprints planificados</span></div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Release 1.36 PF · 1.15 PJ — Despliegue PROD 4/6</span></div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Caso de uso WhatsApp — En definición</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Mis Resultados — Visión Supervisor y Ranking — En curso</span></div>
+          <div style="font-size:8.5px;color:var(--red);font-weight:600;display:flex;gap:3px;align-items:center"><span>⚠</span><span>Bloqueo de red y seguridad para el despliegue del Responsivo requerido por G. Visita</span></div>
+        </div>
+      </div>
+
+      <!-- COL 4: REINICIO / REVISIÓN -->
+      <div style="display:flex;flex-direction:column;gap:5px;min-height:0">
+        <div style="display:flex;align-items:center;gap:5px;padding-bottom:5px;border-bottom:1.5px solid var(--border);flex-shrink:0">
+          <div style="width:7px;height:7px;border-radius:50%;background:#3B6EA5;flex-shrink:0"></div>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3)">Reinicio / Revisión</span>
+        </div>
+        <div onclick="goTo(2)" style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">Revisión condiciones</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">CCB</div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span><strong>Uso actual plataforma:</strong> Gestionando mecanismo de acceso de información.</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Pendiente respuesta</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Demos de nuevas funcionalidades (*)</span></div>
+        </div>
+        <div onclick="goTo(2)" style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">Reinicio</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">Corrientes</div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>A partir del 8/6 · 2 semanas para puesta en producción de Cartera y Jerarquía</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Al finalizar el despliegue se espera aprobación de Propuesta SaaS</span></div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Solicitud de Monitoreo Anual Proveedores — entregado.</span></div>
+          <div style="font-size:8.5px;color:var(--green);font-weight:600;display:flex;gap:3px;align-items:center"><span>↗</span><span>Trabajo en transición</span></div>
+        </div>
+      </div>
+
+      <!-- COL 5: EN POC -->
+      <div style="display:flex;flex-direction:column;gap:5px;min-height:0">
+        <div style="display:flex;align-items:center;gap:5px;padding-bottom:5px;border-bottom:1.5px solid var(--border);flex-shrink:0">
+          <div style="width:7px;height:7px;border-radius:50%;background:#C07D1A;flex-shrink:0"></div>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3)">En POC</span>
+        </div>
+        <div onclick="goTo(3)" style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">En POC</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">Votorantim</div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Casos de uso para la demo: en curso.</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Demo 15/6.</span></div>
+        </div>
+        <div onclick="goTo(3)" style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">En POC</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">Open Bank</div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>SOC2 — En presupuestación</span></div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Oferta Comercial enviada.</span></div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Contrato en negociación.</span></div>
+          <div style="font-size:8.5px;color:var(--red);font-weight:600;display:flex;gap:3px;align-items:center"><span>⚠</span><span>Se requiere monitoreo y observabilidad · 4 incidentes durante Mayo</span></div>
+        </div>
+      </div>
+
+      <!-- COL 6: EN ASSESSMENT -->
+      <div style="display:flex;flex-direction:column;gap:5px;min-height:0">
+        <div style="display:flex;align-items:center;gap:5px;padding-bottom:5px;border-bottom:1.5px solid var(--border);flex-shrink:0">
+          <div style="width:7px;height:7px;border-radius:50%;background:#7C5CBF;flex-shrink:0"></div>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3)">En Assessment</span>
+        </div>
+        <div onclick="goTo(3)" style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">En Assessment</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">Int. Seguros</div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Se solicita despliegue de la versión LB con features de Seguros</span></div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Se revisará con Producto la visión Corredor/Broker</span></div>
+          <div style="font-size:8.5px;color:var(--red);font-weight:600;display:flex;gap:3px;align-items:center"><span>⚠</span><span>Falta de respuesta del cliente.</span></div>
+        </div>
+        <div onclick="goTo(3)" style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px;cursor:pointer;flex-shrink:0">
+          <div style="font-size:8px;color:var(--text-4)">En Assessment</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">BBVA Perú</div>
+          <div style="font-size:8.5px;color:var(--text-2);font-weight:400;display:flex;gap:3px"><span>·</span><span>Lunes 1/6 — Demo Campañas / CDP</span></div>
+          <div style="font-size:8.5px;color:var(--blue);font-weight:600;display:flex;gap:3px;align-items:center"><span>·</span><span>Ambientes LB para BBVA creados.</span></div>
+          <div style="font-size:8.5px;color:var(--red);font-weight:600;display:flex;gap:3px;align-items:flex-start"><span>⚠</span><span>Assessment: revisión de casos de uso, por impedimentos internos de integración en BBVA.</span></div>
+          <div style="font-size:8.5px;color:var(--red);font-weight:600;display:flex;gap:3px;align-items:center"><span>⚠</span><span>Se solicita nueva Demo — acordar contenido y fecha.</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sin Actividad · referencial al pie -->
+    <div style="flex-shrink:0;display:flex;align-items:center;gap:8px;padding:5px 10px;background:var(--surface);border:1px dashed var(--border);border-radius:4px;opacity:0.6">
+      <div style="width:6px;height:6px;border-radius:50%;background:#9CA3AF;flex-shrink:0"></div>
+      <span style="font-size:8px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-4)">Sin Actividad</span>
+      <span style="font-size:8px;color:var(--text-3);margin-left:4px">·</span>
+      <span style="font-size:9px;font-weight:700;color:var(--text-3)">Grupo Azeta</span>
+      <span style="font-size:8.5px;color:var(--text-4)">— Propuesta enviada en febrero. Se reclama al cliente.</span>
+    </div>
+
+    <!-- Nota evaluación -->
+    <div style="flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px 14px;font-size:9.5px;color:var(--text-3)">(*) Flujos - Flowable, Campañas</div>
+
+    <!-- Health Score banner -->
+    <div style="flex-shrink:0;background:linear-gradient(135deg,#1B2B4B 0%,#243858 100%);border-radius:6px;padding:9px 18px;display:flex;align-items:center;gap:12px">
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px">📊</div>
+      <div style="flex:1">
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1px">Health Score</div>
+        <div style="font-size:10.5px;color:#fff;font-weight:500">Se está trabajando junto a Emilio en el diseño del primer modelo de Health Score, orientado a consolidar una visión integral de salud, adopción y riesgo de cada cliente en una <em>one page</em> ejecutiva.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="slide" id="s2">
+  <div class="slide-band">
+    <div>
+      <div class="band-eyebrow">CS · Seguimiento Clientes · Recuperación</div>
+      <div class="band-title">Assegur · Sudameris · Basa.</div>
+      <div class="band-sub">Tres clientes · proceso activo</div>
+    </div>
+    <div class="band-right"><div class="band-num">02 / 07</div><div class="band-date">04 Junio 2026</div></div>
+  </div>
+  <div class="slide-body">
+    <div class="rec-grid">
+      <div class="rec-card" onclick="goTo(5)">
+        <div class="rec-card-top">
+          <div><div class="rc-name">Assegur</div><div class="rc-type">Corrección (Fix &amp; Realignment)</div></div>
+          <span class="badge b-rec">Recuperación</span>
+        </div>
+        <div class="rc-body">Release 1.7.0 entregado. Capacitación intensiva ejecutivos en curso.</div>
+        <div class="focos" style="flex:none">
+          <div class="foco-row"><span class="foco-mk">·</span>Persistencia de Filtros</div>
+          <div class="foco-row"><span class="foco-mk">·</span>Gestión de Backups</div>
+          <div class="foco-row"><span class="foco-mk">·</span>API Reasignación CTAs</div>
+          <div class="foco-row"><span class="foco-mk">·</span>Estabilización de Flujos</div>
+          <div class="foco-row"><span class="foco-mk">·</span>Refresh CTAs To Do List</div>
+        </div>
+        <div class="rc-body" style="margin-top:4px;flex-shrink:0">Release 1.7.1 · 19/05: Update Proceso Ingesta/Batch</div>
+        <div class="rc-body" style="margin-top:4px;flex-shrink:0"><strong style="color:var(--green)">Release 1.8.0 · desplegado en PRE PROD — 28/5</strong></div>
+        <div style="margin-top:4px;padding:6px 10px;background:var(--poc-bg);border:1px solid var(--poc-border);border-radius:4px;font-size:10px;color:#7A4D0A;line-height:1.5;flex-shrink:0">
+          <strong>⚠ Incidente prod 14/05 y 15/05:</strong> Reingesta de pólizas canceladas ejecutada. Logs end-to-end instalados.
+        </div>
+        
+        <div class="rc-link" onclick="event.stopPropagation();goTo(4)" style="cursor:pointer">Ver plan de detalle ↗</div>
+      </div>
+      <div class="rec-card" onclick="goTo(6)">
+        <div class="rec-card-top">
+          <div><div class="rc-name">Sudameris</div><div class="rc-type">Contención (Stabilization)</div></div>
+          <span class="badge b-rec">Recuperación</span>
+        </div>
+        <div class="rc-body">6 focos identificados. Accionables en curso y en revisión.</div>
+        <div class="focos" style="flex:none">
+          <div class="foco-row done"><span class="foco-mk">✓</span>P1 · Dashboard — Implementado</div>
+          <div class="foco-row"><span class="foco-mk">·</span>P2 · Estabilidad y Performance — En revisión</div>
+          <div class="foco-row"><span class="foco-mk">·</span>P3 · Controles de Cambio (21 tickets)</div>
+          <div class="foco-row"><span class="foco-mk">·</span>P4 · Alertas CDA — En curso</div>
+          <div class="foco-row"><span class="foco-mk">·</span>P5 · Nuevos Reqs — 9 refinados · 1 campaña</div>
+          <div class="foco-row"><span class="foco-mk">·</span>P6 · Capacitación Analytics — En curso</div>
+        </div>
+        <div style="height:1px;background:var(--border-lt);margin:6px 0;flex-shrink:0"></div>
+        <div style="font-size:9px;color:var(--text-2);line-height:1.6;flex-shrink:0">
+          <div style="color:var(--blue);font-weight:600">· Entrega Release 2.0.36 — 9/6</div>
+          <div style="color:var(--red);font-weight:600">⚠ Cliente solicita en detalle la reducción de costos.</div>
+          <div>· P5 - Paquete 10 reqs priorizados — Refinamiento finalizado</div>
+        </div>
+        <div class="rc-link" onclick="event.stopPropagation();goTo(6)" style="cursor:pointer">Ver plan de detalle ↗</div>
+      </div>
+      <div class="rec-card" onclick="goTo(5)">
+        <div class="rec-card-top">
+          <div><div class="rc-name">Basa</div><div class="rc-type">Contención (Stabilization)</div></div>
+          <span class="badge b-rec">Recuperación</span>
+        </div>
+        <div class="rc-body">Paquetes 2 y 3 en avance. Acciones de adopción en paralelo.</div>
+        <div class="focos" style="flex:none">
+          <div class="foco-row done"><span class="foco-mk">✓</span>Paquete 2 de requerimientos</div>
+          <div class="foco-row done"><span class="foco-mk">✓</span>Paquete 3 de requerimientos</div>
+          <div class="foco-row"><span class="foco-mk">·</span>Impulso de adopción</div>
+        </div>
+        <div style="margin-top:6px;padding:6px 10px;background:var(--poc-bg);border:1px solid var(--poc-border);border-radius:4px;font-size:10px;color:#7A4D0A;line-height:1.5;flex-shrink:0">
+          <strong>⚠ Incidente prod 12/05:</strong> Falla EKS/Redis resuelta. Basa prioriza migración de infra a servicios administrados.
+          <span style="color:var(--blue);font-weight:600;cursor:pointer" onclick="event.stopPropagation();goTo(5)"> Ver análisis ↗</span>
+        </div>
+        
+        <div style="height:1px;background:var(--border-lt);margin:6px 0;flex-shrink:0"></div>
+        <div style="font-size:9px;color:var(--blue);font-weight:600;flex-shrink:0">· Entrega release 2.3.2 para certificación de cliente: 4/6</div>
+        <div class="rc-link" onclick="event.stopPropagation();goTo(5)" style="cursor:pointer">Ver plan de detalle ↗</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S3: ESTADO (Itaú · CCB · Corrientes) ══ -->
+<div class="slide" id="s3">
+  <div class="slide-band">
+    <div>
+      <div class="band-eyebrow">CS · Seguimiento Clientes · Estado</div>
+      <div class="band-title">Itaú · CCB · Corrientes.</div>
+      <div class="band-sub">Tres clientes · Expansión y Reinicio</div>
+    </div>
+    <div class="band-right"><div class="band-num">03 / 07</div><div class="band-date">04 Junio 2026</div></div>
+  </div>
+  <div class="slide-body">
+    <div class="estado-grid">
+      <!-- Itaú -->
+      <div class="ec-col">
+        <div style="display:flex;justify-content:space-between;align-items:center"><div class="ec-name">Itaú</div><span class="badge b-exp">Expansión</span></div>
+        <div class="ec-card" style="border-color:var(--exp-border)">
+          <div class="ec-lbl">Estado</div>
+          <div style="font-size:14px;font-weight:600;color:var(--green);margin-bottom:4px">Expansión / Confianza</div>
+          <div class="ec-hitos">
+            <div class="ec-hito"><span style="color:var(--green)">✓</span>Release PF y PJ entregado</div>
+            <div class="ec-hito"><span style="color:var(--green)">✓</span>Sprint Review PJ muy positivo</div>
+            <div class="ec-hito"><span style="color:var(--green)">✓</span>Demo WhatsApp + AWS Connect</div>
+            <div class="ec-hito"><span style="color:var(--green)">✓</span>13M ingestas mensuales estables</div>
+            <div class="ec-hito"><span>·</span>PJ probando VPN para funcionalidad Responsive</div>
+            <div class="ec-hito"><span>·</span>Mis Resultados en PROD · desplegado 19/05 ✓</div>
+            <div class="ec-hito" style="color:var(--blue);font-weight:600"><span>·</span>Release 1.36 PF · 1.15 PJ — Despliegue PROD 4/6</div>
+            <div class="ec-hito" style="color:var(--blue);font-weight:600"><span>·</span>Caso de uso WhatsApp — En definición</div>
+          </div>
+        </div>
+        <div class="ec-warn">
+          <strong>Negociación contractual</strong>
+        </div>
+        <div class="ec-resp" style="color:var(--text-3)">Momento de expansión plena · vínculo sólido</div>
+        
+      </div>
+      <!-- CCB -->
+      <div class="ec-col">
+        <div style="display:flex;justify-content:space-between;align-items:center"><div class="ec-name">CCB</div><span class="badge b-rev">Revisión</span></div>
+        <div class="ec-card" style="flex:1">
+          <div class="ec-lbl">Situación</div>
+          <div class="ec-body">Propuesta comercial ajustada y enviada. Pendiente: demos de nuevas funcionalidades. Mantenimiento activo de Portal Web.</div>
+          <div style="margin-top:10px">
+            <div class="ec-lbl">En curso</div>
+            <div class="ec-hitos" style="margin-top:4px">
+              <div class="ec-hito"><span>·</span>Demos de nuevas funcionalidades</div>
+              <div class="ec-hito"><span>·</span>A la espera de acuerdo de propuesta comercial ajustada</div>
+              <div class="ec-hito" style="color:var(--blue);font-weight:600"><span>·</span>Uso actual plataforma: Gestionando mecanismo de acceso de información.</div>
+            </div>
+          </div>
+          
+
+        </div>
+      </div>
+      <!-- Corrientes -->
+      <div class="ec-col">
+        <div style="display:flex;justify-content:space-between;align-items:center"><div class="ec-name">Corrientes</div><span class="badge b-rec">Reinicio</span></div>
+        <div class="ec-card" style="flex:1">
+          <div class="ec-lbl">Situación</div>
+          <div class="ec-body">Reinicia en mayo. Cambios de jerarquía y carteras.</div>
+          <div class="ec-warn" style="margin-top:10px">
+            <strong>⚠ Punto de atención:</strong> Charly se retira en 2 meses. Reemplazo: <strong>Daniela Soledad Martina</strong>
+          </div>
+          <div style="margin-top:10px">
+            <div class="ec-lbl">Próximos hitos</div>
+            <div class="ec-hitos" style="margin-top:4px">
+              <div class="ec-hito"><span>·</span><span>Pase a producción Jerarquía y Cartera — ventana 2 semanas</span></div>
+              <div class="ec-hito"><span>·</span>Aprobación propuesta migración a SaaS</div>
+            </div>
+          </div>
+          <div style="margin-top:10px" class="ec-resp">Débora · Charly → Daniela Soledad Martina</div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S4: POC / INICIO ══ -->
+<div class="slide" id="s4">
+  <div class="slide-band">
+    <div>
+      <div class="band-eyebrow">CS · Seguimiento Clientes · POC / Inicio</div>
+      <div class="band-title">Votorantim · Int. de Seguros · Open Bank.</div>
+      <div class="band-sub">Tres proyectos · POC y arranque en curso</div>
+    </div>
+    <div class="band-right"><div class="band-num">04 / 07</div><div class="band-date">04 Junio 2026</div></div>
+  </div>
+  <div class="slide-body">
+    <div class="poc-warn">
+      <div class="poc-icon">⏰</div>
+      <div>
+        <div class="poc-title">Votorantim — Demo coordinada para el 15/6 · São Paulo (presencial)</div>
+        <div class="poc-body">Se trabaja con el análisis funcional y técnico de los 6 casos de uso solicitados para la Demo del 15/6. Con posterioridad a la demo, el banco define si avanza con la nueva etapa del proyecto.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px">
+          <div style="font-size:10px;color:#5C3A08;display:flex;gap:5px"><span style="font-weight:700;flex-shrink:0">CU1</span><span>Visión 360° del Cliente y de la Cartera</span></div>
+          <div style="font-size:10px;color:#5C3A08;display:flex;gap:5px"><span style="font-weight:700;flex-shrink:0">CU2</span><span>Gestión Integrada de Actividades entre Equipos</span></div>
+          <div style="font-size:10px;color:#5C3A08;display:flex;gap:5px"><span style="font-weight:700;flex-shrink:0">CU3</span><span>Pipeline Comercial y Seguimiento de Oportunidades</span></div>
+          <div style="font-size:10px;color:#5C3A08;display:flex;gap:5px"><span style="font-weight:700;flex-shrink:0">CU4</span><span>Dashboard Ejecutivo con Acciones Directas <em>(en análisis)</em></span></div>
+          <div style="font-size:10px;color:#5C3A08;display:flex;gap:5px"><span style="font-weight:700;flex-shrink:0">CU5</span><span>Carterización</span></div>
+          <div style="font-size:10px;color:#5C3A08;display:flex;gap:5px"><span style="font-weight:700;flex-shrink:0">CU6</span><span>Benchmark y Mejores Prácticas Corporativas (PJ)</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="poc-items">
+      <div class="poc-row">
+        <div class="poc-ico pi-amb">↺</div>
+        <div>
+          <div class="poc-row-title">Internacional de Seguros — Kickoff acordado</div>
+          <div class="poc-row-body">Se efectuó reunión el 19/05 y se acordó avanzar con el Kick off y la implementación de la versión estándar basada en clientes similares de seguros, para facilitar el entendimiento conjunto con el cliente.<br>· Se solicita el ambiente de LB con features de Seguro.<br>· Se revisará con Producto la visión para Corredor/Broker.
+          <div style="font-size:8.5px;color:var(--red);font-weight:600;display:flex;gap:3px;align-items:center;margin-top:4px"><span>⚠</span><span>Falta de respuesta del cliente.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="poc-row">
+        <div class="poc-ico pi-pur" style="font-size:10px;font-weight:700">OB</div>
+        <div>
+          <div class="poc-row-title">Open Bank</div>
+          <div class="poc-row-body">
+            · <strong>Oferta comercial:</strong> Enviada · <strong>Contrato:</strong> En proceso de cierre de condiciones contractuales y formalización del acuerdo.<br>
+            · Reunión con el cliente para revisar dudas y stoppers manifestados.<br>
+            <strong style="color:var(--navy)">Versión en curso con:</strong><br>
+            · Paginación de usuarios<br>
+            · No mostrar la evaluación al usuario final<br>
+            · Mejoras en el dashboard de administración<br>
+            <strong style="color:var(--navy)">SOC2 Type 1/2:</strong> AC se contactó con Certificador de SOC 2 y se presupuestará el costo del proceso.<br>
+            En paralelo, a la espera de definición de Ambiente y versión de Producto final para avanzar con la certificación.<br>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="poc-items">
+      <div class="poc-row">
+        <div class="poc-ico" style="background:#EEF4FB;color:#2558A0;font-size:9px;font-weight:700">BB</div>
+        <div>
+          <div class="poc-row-title">BBVA Perú</div>
+          <div class="poc-row-body">
+            · Lunes 1/6 — Demo Campañas / CDP<br>
+            · Ambientes LB creados<br>
+            <span style="color:var(--red);font-weight:600">⚠ Assessment: revisión de casos de uso por impedimentos internos BBVA.</span><br>
+            <span style="color:var(--red);font-weight:600">⚠ Se solicita nueva Demo — acordar contenido y fecha.</span>
+          </div>
+        </div>
+      </div>
+      <div class="poc-row">
+        <div class="poc-ico" style="background:#FDF3F3;color:#A83232;font-size:9px;font-weight:700;border:1px solid #E8C5C5">CCI</div>
+        <div>
+          <div class="poc-row-title">CCI <span style="font-size:10px;color:var(--red);font-weight:400">⚠ Proceso de cierre contractual activo</span></div>
+          <div class="poc-row-body">
+            · Propuesta nuevo ambiente, SaaS, con Flujos — 2 meses<br>
+            <span style="color:var(--red);font-weight:600">⚠ Revisar alternativa para DEMO de Flujos y beneficios nueva herramienta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-foot">Estos proyectos están en etapas iniciales o de evaluación. El foco es desbloquear y avanzar rápido.</div>
+</div>
+
+<!-- ══ S8 (D): ROADMAP ASSEGUR v2 ══ -->
+<div class="slide" id="s5">
+  <div class="slide-band">
+    <div>
+      <div class="band-eyebrow">CS · Detalle cliente · Recuperación</div>
+      <div class="band-title">Assegur — Roadmap de Implementaciones 06/2026</div>
+      <div class="band-sub">Backlog priorizado · Sprints Mayo → Julio 2026</div>
+    </div>
+    <div class="band-right"><div class="band-num">05 / 07</div><div class="band-date">04 Junio 2026</div></div>
+  </div>
+  <div class="slide-body" style="gap:10px">
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <button class="back-btn" onclick="goTo(0)">← Volver al resumen</button>
+      <span class="badge b-rec">Recuperación</span>
+      <span style="font-size:10px;color:var(--text-3);margin-left:4px">Hoy · Sprint 64 · 27/05 – 09/06</span>
+    </div>
+
+    <!-- RELEASES -->
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;flex-shrink:0">
+
+      <div class="rel-card done">
+        <div class="rel-top"><span class="rel-code">Release 1.7.0 · 13/05</span><span class="badge b-done">✓ Productivo</span></div>
+        <div class="rel-item done"><span>✓</span>Persistencia de Filtros</div>
+        <div class="rel-item done"><span>✓</span>Gestión de Backups</div>
+        <div class="rel-item done"><span>✓</span>Estabilización de Flujos</div>
+        <div class="rel-item done"><span>✓</span>Refresh CTAs To Do List</div>
+      </div>
+
+      <div class="rel-card done">
+        <div class="rel-top"><span class="rel-code">Release 1.7.1 · 18/05</span><span class="badge b-done">✓ Productivo</span></div>
+        <div class="rel-item done"><span>✓</span>Update Proceso Ingesta/Batch</div>
+      </div>
+
+      <div class="rel-card done">
+        <div class="rel-top"><span class="rel-code">Release 1.8.0 · 18/05</span><span class="badge b-done">✓ Productivo</span></div>
+        <div class="rel-item done"><span>✓</span>API de Reasignación de CTAs</div>
+        <div class="rel-item done"><span>✓</span>Marca Backup en To Do List</div>
+        <div class="rel-item done"><span>✓</span>Diferenciar CTAs por color</div>
+        <div class="rel-item done"><span>✓</span>Cierre Automática Oportunidades (*)</div>
+        <div class="rel-item done"><span>✓</span>BUGs (1)</div>
+      </div>
+
+      <div class="rel-card" style="border:1.5px solid var(--navy)">
+        <div class="rel-top"><span class="rel-code">Release 1.9.0 · 09/06</span><span class="badge b-next">Próximo</span></div>
+        <div class="rel-item"><span>·</span>Update Proceso de Ingestas (*)</div>
+        <div class="rel-item"><span>·</span>Tope Máximo de CTAs</div>
+        <div class="rel-item"><span>·</span>Bidireccionalidad de Correo</div>
+        <div class="rel-item"><span>·</span>Reporte de Usabilidad</div>
+        <div class="rel-item"><span>·</span>Revisión Roles y Permisos</div>
+        <div class="rel-item"><span>·</span>BUGs (2)</div>
+      </div>
+
+      <div class="rel-card">
+        <div class="rel-top"><span class="rel-code">Release 1.10.0 · 23/06</span><span class="badge b-tbd">A definir</span></div>
+        <div class="rel-item"><span>·</span>Filtro clientes con CTAs gestionados</div>
+        <div class="rel-item"><span>·</span>Implementación de Data Lake</div>
+        <div class="rel-item"><span>·</span>Reporte de CTAs</div>
+        <div class="rel-item"><span>·</span>Reasignación de CTAs Mod. Flujos</div>
+      </div>
+
+      <div class="rel-card" style="opacity:0.7">
+        <div class="rel-top"><span class="rel-code">Sprints 67–68 · Jul</span><span class="badge b-tbd">Futuro</span></div>
+        <div class="rel-item"><span>·</span>Research: Integración Nuevo Core</div>
+        <div class="rel-item"><span>·</span>Módulo Flujos: Reasig. de CTAs</div>
+      </div>
+
+    </div>
+
+    <!-- GANTT + BACKLOG -->
+    <div style="display:grid;grid-template-columns:1fr 210px;gap:10px;flex:1;min-height:0">
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-height:0">
+        <div style="display:grid;grid-template-columns:150px repeat(7,1fr);background:var(--navy);flex-shrink:0">
+          <div style="padding:4px 8px;font-size:8px;color:rgba(255,255,255,0.3);border-right:1px solid rgba(255,255,255,0.08)"></div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid rgba(255,255,255,0.08)">Abr</div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.8);text-align:center;border-right:1px solid rgba(255,255,255,0.08);grid-column:span 2;background:rgba(255,255,255,0.06)">Mayo</div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.9);text-align:center;border-right:1px solid rgba(255,255,255,0.08);grid-column:span 2;background:rgba(255,255,255,0.10)">Junio</div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.5);text-align:center;grid-column:span 2">Julio</div>
+        </div>
+        <div style="display:grid;grid-template-columns:150px repeat(7,1fr);background:#243858;border-bottom:1px solid var(--border);flex-shrink:0">
+          <div style="padding:3px 8px;font-size:7.5px;color:rgba(255,255,255,0.3);border-right:1px solid var(--border-lt)">Item</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.4);text-align:center;border-right:1px solid var(--border-lt)">S62</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.4);text-align:center;border-right:1px solid var(--border-lt)">S63</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.8);text-align:center;border-right:1px solid var(--border-lt);background:rgba(255,255,255,0.05)">S64 ←hoy</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.4);text-align:center;border-right:1px solid var(--border-lt)">S65</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.4);text-align:center;border-right:1px solid var(--border-lt)">S66</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.4);text-align:center;border-right:1px solid var(--border-lt)">S67</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.4);text-align:center">S68</div>
+        </div>
+        <div style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+          <div style="display:grid;grid-template-columns:150px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:9px;color:var(--text-2);border-right:1px solid var(--border-lt)">Persistencia/Backups/Flujos</div>
+            <div style="padding:2px 2px"><div style="background:#2E7D6B;border-radius:3px;height:13px;font-size:7.5px;color:#fff;display:flex;align-items:center;padding:0 4px">R1.7 ✓</div></div>
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:150px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:9px;color:var(--text-2);border-right:1px solid var(--border-lt)">API Reasig. / Color CTAs / Backup</div>
+            <div></div>
+            <div style="padding:2px 2px"><div style="background:#2E7D6B;border-radius:3px;height:13px;font-size:7.5px;color:#fff;display:flex;align-items:center;padding:0 4px">R1.8 ✓</div></div>
+            <div></div><div></div><div></div><div></div><div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:150px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:9px;color:var(--text-2);border-right:1px solid var(--border-lt)">Implementación Data Lake</div>
+            <div></div><div></div>
+            <div style="padding:2px 2px;grid-column:span 4"><div style="background:#3B6EA5;border-radius:3px;height:13px;font-size:7.5px;color:#fff;display:flex;align-items:center;padding:0 6px">Data Lake ───────→</div></div>
+            <div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:150px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:9px;color:var(--text-2);border-right:1px solid var(--border-lt)">Roles/Permisos · Bidir. Correo</div>
+            <div></div><div></div>
+            <div style="padding:2px 2px"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7.5px;color:#fff;display:flex;align-items:center;padding:0 4px">R1.9</div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:150px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:9px;color:var(--text-2);border-right:1px solid var(--border-lt)">Tope Máx CTAs · Rep. Usabilidad</div>
+            <div></div><div></div>
+            <div style="padding:2px 2px"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7.5px;color:#fff;display:flex;align-items:center;padding:0 4px">R1.9</div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:150px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:9px;color:var(--text-2);border-right:1px solid var(--border-lt)">Filtro CTAs · Reporte CTAs</div>
+            <div></div><div></div><div></div>
+            <div style="padding:2px 2px"><div style="background:#6B7280;border-radius:3px;height:13px;font-size:7.5px;color:#fff;display:flex;align-items:center;padding:0 4px">R1.10</div></div>
+            <div></div><div></div><div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:150px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#FDF8EE">
+            <div style="padding:3px 8px;font-size:9px;color:var(--amber);font-weight:600;border-right:1px solid var(--border-lt)">Plan de Estabilización</div>
+            <div></div>
+            <div style="padding:2px 2px;grid-column:span 5"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7.5px;color:#fff;display:flex;align-items:center;padding:0 6px">Plan Estabilización ─────────→</div></div>
+            <div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:150px repeat(7,1fr);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:9px;color:var(--text-3);font-style:italic;border-right:1px solid var(--border-lt)">Research: Nuevo Core</div>
+            <div></div><div></div><div></div><div></div>
+            <div style="padding:2px 2px"><div style="background:#7C5CBF;border-radius:3px;height:13px;font-size:7.5px;color:#fff;display:flex;align-items:center;padding:0 4px">R&amp;D</div></div>
+            <div></div><div></div>
+          </div>
+        </div>
+        <div style="padding:4px 8px;background:#F8FAFC;border-top:1px solid var(--border-lt);font-size:7.5px;color:var(--text-3);flex-shrink:0">(*) Cierre Automática de Oportunidades: pendiente despliegue por parte del cliente &nbsp;·&nbsp; (*) Update proceso Ingesta: en revisión</div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;overflow:hidden;display:flex;flex-direction:column;gap:4px;min-height:0">
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3)">Backlog</div>
+        <div style="font-size:9px;color:var(--text-2);line-height:1.65">
+          <div>· Evolutivos Filtros</div>
+          <div style="padding-left:8px;font-size:8px;color:var(--text-3)">Nuevo formato filtro "Pólizas"</div>
+          <div style="padding-left:8px;font-size:8px;color:var(--text-3)">Filtros fecha trabajo independiente</div>
+          <div style="padding-left:8px;font-size:8px;color:var(--text-3)">Nuevos parámetros Filtro Ramos</div>
+        </div>
+        <div style="height:1px;background:var(--border-lt);margin:2px 0"></div>
+        <div style="font-size:8px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3)">Bugs / Evolutivos</div>
+        <div style="font-size:9px;color:var(--text-2);line-height:1.65">
+          <div style="color:var(--red)">#15136 Flujo actualiz. datos 🔴</div>
+          <div style="color:var(--red)">#15034 Email front 🔴</div>
+          <div style="color:var(--amber)">#15007 Error 409 🟡</div>
+          <div style="color:var(--amber)">#15132 Error back-up 🟡</div>
+          <div style="color:var(--amber)">#15062 Ingesta clientes estado póliza 🟡</div>
+          <div style="color:var(--amber)">#14969 Historial oportunidades 🟡</div>
+          <div style="color:var(--amber)">#14894 Oportunidades no cerradas 🟡</div>
+          <div>#15017 Datos FMC post-burbujas</div>
+          <div>#14065 Cannot read properties</div>
+          <div style="color:var(--green)">Alerta Time Outs (Grafana) 🟢</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="slide" id="s6">
+  <div class="slide-band">
+    <div>
+      <div class="band-eyebrow">CS · Detalle cliente · Recuperación</div>
+      <div class="band-title">Basa — Roadmap de Implementaciones 06/2026</div>
+      <div class="band-sub">Requerimientos Priorizados · Paquete B/C · Sprints Mayo → Agosto 2026</div>
+    </div>
+    <div class="band-right"><div class="band-num">06 / 07</div><div class="band-date">04 Junio 2026</div></div>
+  </div>
+  <div class="slide-body" style="gap:8px">
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <button class="back-btn" onclick="goTo(1)">← Volver al resumen</button>
+      <span class="badge b-rec">Recuperación</span>
+      <span style="font-size:10px;color:var(--text-3);margin-left:4px">Hoy · Sprint 21 · 25/05 – 05/06</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 260px;gap:10px;flex:1;min-height:0">
+
+      <!-- GANTT -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-height:0">
+        <!-- meses -->
+        <div style="display:grid;grid-template-columns:180px repeat(7,1fr);background:var(--navy);flex-shrink:0">
+          <div style="padding:4px 8px;font-size:8px;color:rgba(255,255,255,0.3);border-right:1px solid rgba(255,255,255,0.08)"></div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.8);text-align:center;border-right:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.06)">Mayo</div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.9);text-align:center;border-right:1px solid rgba(255,255,255,0.08);grid-column:span 2;background:rgba(255,255,255,0.10)">Junio</div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.7);text-align:center;border-right:1px solid rgba(255,255,255,0.08);grid-column:span 2">Julio</div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.5);text-align:center;grid-column:span 2">Agosto</div>
+        </div>
+        <!-- sprints -->
+        <div style="display:grid;grid-template-columns:180px repeat(7,1fr);background:#243858;border-bottom:1px solid var(--border);flex-shrink:0">
+          <div style="padding:3px 8px;font-size:7.5px;color:rgba(255,255,255,0.3);border-right:1px solid var(--border-lt)">Requerimiento</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.8);text-align:center;border-right:1px solid var(--border-lt);background:rgba(255,255,255,0.05)">S21 ←hoy</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S22</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S23</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S24</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S25</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S26</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center">S27</div>
+        </div>
+        <!-- filas -->
+        <div style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14583 Visualiz. Tarjetas</div>
+            <div style="padding:2px 3px"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 04/06</div></div>
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14582 Visualiz. CDA</div>
+            <div style="padding:2px 3px"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 04/06</div></div>
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14569 Datos Ficha Clientes</div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 11/06 ───</div></div>
+            <div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#12547 Registro Nuevos Clientes</div>
+            <div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#3B6EA5;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 23/06 ───</div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14166 Flujo TC v2 (Part1)</div>
+            <div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#3B6EA5;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 23/06 ───</div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14641 Alta Clientes/Prospectos</div>
+            <div></div><div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#6B7280;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Ref → 09/07 ──</div></div>
+            <div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14566 Solapas Onboarding</div>
+            <div></div><div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#6B7280;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Ref → 09/07 ──</div></div>
+            <div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14565 Campañas/Flujos Ofertas</div>
+            <div></div><div></div><div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#6B7280;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Ref → 14/07 ─</div></div>
+            <div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14166 Flujo TC v2 (Part2)</div>
+            <div></div><div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#6B7280;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Ref → 09/07 ──</div></div>
+            <div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#FDF8EE">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--amber);font-weight:600;border-right:1px solid var(--border-lt)">Migración Serv. Autoadmin.</div>
+            <div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 12/06 ───</div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:180px repeat(7,1fr);align-items:center;flex:1;background:#FDF8EE">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--amber);font-weight:600;border-right:1px solid var(--border-lt)">Consolidación Nodos / Grafana</div>
+            <div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 12/06 ───</div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+
+        </div>
+        <div style="padding:4px 8px;background:#F8FAFC;border-top:1px solid var(--border-lt);font-size:7.5px;color:var(--text-3);flex-shrink:0">(*) Requerimientos a entregar para UAT &nbsp;·&nbsp; (**) Requerimientos de Infraestructura</div>
+      </div>
+
+      <!-- TICKETS PENDIENTES -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;overflow:hidden;display:flex;flex-direction:column;gap:5px;min-height:0">
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3)">Tickets Pendientes</div>
+
+        <div style="background:#FDF3F3;border:1px solid #E8C5C5;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#8B0000">#15084 · Notificaciones mail/SMS</div>
+          <div style="color:var(--text-3)">Módulo Acciones Masivas · Esperando Confirmación</div>
+        </div>
+
+        <div style="background:#FDF3F3;border:1px solid #E8C5C5;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#8B0000">#14862 · Seguros PJ — FMC <span style="color:var(--red)">⚠ Vencido</span></div>
+          <div style="color:var(--text-3)">Caja de productos — RUC 80009515-4</div>
+        </div>
+
+        <div style="background:#FDF3F3;border:1px solid #E8C5C5;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#8B0000">#14861 · Datos Courrier — FMC · Esperando</div>
+          <div style="color:var(--text-3)">No se visualizan datos de Courrier en CRM</div>
+        </div>
+
+        <div style="background:#FDF3F3;border:1px solid #E8C5C5;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#8B0000">#14860 · Movimientos de Cuentas <span style="color:var(--red)">⚠ Vencido</span></div>
+          <div style="color:var(--text-3)">Sin transacciones visibles en caja Cuentas</div>
+        </div>
+
+        <div style="background:#FDF3F3;border:1px solid #E8C5C5;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#8B0000">#14845 · Flujo Aumento LC <span style="color:var(--red)">⚠ Vencido</span></div>
+          <div style="color:var(--text-3)">Error motor análisis — CI: 5110757</div>
+        </div>
+
+        <div style="margin-top:2px;font-size:7.5px;color:var(--text-3)">3 tickets <strong style="color:var(--red)">vencidos</strong> · 2 esperando confirmación</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="slide" id="s7">
+  <div class="slide-band">
+    <div>
+      <div class="band-eyebrow">CS · Detalle cliente · Recuperación</div>
+      <div class="band-title">Sudameris — Seguimiento y Plan 06/2026</div>
+      <div class="band-sub">Acciones de Estabilización · Roadmap Sprints Mayo → Agosto 2026</div>
+    </div>
+    <div class="band-right"><div class="band-num">07 / 07</div><div class="band-date">04 Junio 2026</div></div>
+  </div>
+  <div class="slide-body" style="gap:8px">
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <button class="back-btn" onclick="goTo(1)">← Volver al resumen</button>
+      <span class="badge b-rec">Recuperación</span>
+    </div>
+
+    <!-- Focos compactos: 2 filas x 3 cols -->
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;flex-shrink:0">
+      <div class="fd-card done" style="padding:6px 8px"><div class="fd-top" style="margin-bottom:3px"><span class="fd-code">P1</span><span class="badge b-done" style="font-size:7px">✓</span></div><div class="fd-title" style="font-size:9px">Dashboard</div><div class="fd-impact" style="font-size:8px">Implementado</div></div>
+      <div class="fd-card" style="padding:6px 8px"><div class="fd-top" style="margin-bottom:3px"><span class="fd-code">P2</span><span class="badge b-plan" style="background:var(--rev-bg);color:var(--blue);border-color:var(--rev-border);font-size:7px">Curso</span></div><div class="fd-title" style="font-size:9px">Estabilidad / Migración</div><div class="fd-body" style="font-size:8px">Reunión pautada 3/6</div></div>
+      <div class="fd-card" style="padding:6px 8px"><div class="fd-top" style="margin-bottom:3px"><span class="fd-code">P3</span><span class="badge b-plan" style="background:var(--rev-bg);color:var(--blue);border-color:var(--rev-border);font-size:7px">Curso</span></div><div class="fd-title" style="font-size:9px">Controles de Cambio</div><div class="fd-body" style="font-size:8px">21 tickets · 9 finalizados</div></div>
+      <div class="fd-card" style="padding:6px 8px"><div class="fd-top" style="margin-bottom:3px"><span class="fd-code">P4</span><span class="badge b-plan" style="background:var(--rev-bg);color:var(--blue);border-color:var(--rev-border);font-size:7px">Curso</span></div><div class="fd-title" style="font-size:9px">Alertas CDA</div><div class="fd-body" style="font-size:8px">#14932 ✓ · #14462 en curso</div></div>
+      <div class="fd-card" style="padding:6px 8px"><div class="fd-top" style="margin-bottom:3px"><span class="fd-code">P5</span><span class="badge b-tbd" style="font-size:7px">Estim.</span></div><div class="fd-title" style="font-size:9px">Nuevos Reqs</div><div class="fd-body" style="font-size:8px">40 reqs · 9 refinados</div></div>
+      <div class="fd-card" style="padding:6px 8px"><div class="fd-top" style="margin-bottom:3px"><span class="fd-code">P6</span><span class="badge b-plan" style="background:var(--rev-bg);color:var(--blue);border-color:var(--rev-border);font-size:7px">Curso</span></div><div class="fd-title" style="font-size:9px">Capacitación Analytics</div><div class="fd-body" style="font-size:8px">Formación equipo</div></div>
+    </div>
+
+    <!-- Gantt + Tickets -->
+    <div style="display:grid;grid-template-columns:1fr 260px;gap:10px;flex:1;min-height:0">
+
+      <!-- GANTT -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-height:0">
+        <div style="display:grid;grid-template-columns:190px repeat(7,1fr);background:var(--navy);flex-shrink:0">
+          <div style="padding:4px 8px;font-size:8px;color:rgba(255,255,255,0.3);border-right:1px solid rgba(255,255,255,0.08)"></div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.8);text-align:center;border-right:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.06)">Mayo</div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.9);text-align:center;border-right:1px solid rgba(255,255,255,0.08);grid-column:span 2;background:rgba(255,255,255,0.10)">Junio</div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.7);text-align:center;border-right:1px solid rgba(255,255,255,0.08);grid-column:span 2">Julio</div>
+          <div style="padding:4px 4px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.5);text-align:center;grid-column:span 2">Agosto</div>
+        </div>
+        <div style="display:grid;grid-template-columns:190px repeat(7,1fr);background:#243858;border-bottom:1px solid var(--border);flex-shrink:0">
+          <div style="padding:3px 8px;font-size:7.5px;color:rgba(255,255,255,0.3);border-right:1px solid var(--border-lt)">Requerimiento</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.8);text-align:center;border-right:1px solid var(--border-lt);background:rgba(255,255,255,0.05)">S21 ←hoy</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S22</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S23</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S24</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S25</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center;border-right:1px solid var(--border-lt)">S26</div>
+          <div style="padding:3px 4px;font-size:7.5px;color:rgba(255,255,255,0.5);text-align:center">S27</div>
+        </div>
+        <div style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#12429 Dashboard/Contabilizar</div>
+            <div style="padding:2px 3px"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 09/06</div></div>
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#13965 Dashboard Cobro Func.</div>
+            <div style="padding:2px 3px"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 09/06</div></div>
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14765 Prospect Buscador Proc.Mas.</div>
+            <div style="padding:2px 3px"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 09/06</div></div>
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14777 Adm Flujos Buscador</div>
+            <div style="padding:2px 3px"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Dev → 09/06</div></div>
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#13050/67/72/73 Reasig. CTAs</div>
+            <div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#3B6EA5;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Ref → S22–S23 ───</div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14097 Retiro Tipificación</div>
+            <div></div>
+            <div style="padding:2px 3px"><div style="background:#3B6EA5;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Ref → S22</div></div>
+            <div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#14462 Alerta Venc. CDA</div>
+            <div></div>
+            <div style="padding:2px 3px"><div style="background:#3B6EA5;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Ref → S22</div></div>
+            <div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1;background:#F8FBF9">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#12693 Fecha Vto Ofertas Camp.</div>
+            <div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#6B7280;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Ref → S22–S23 ───</div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);border-bottom:1px solid var(--border-lt);align-items:center;flex:1">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--text-2);border-right:1px solid var(--border-lt)">#10013 Reasig. casos usuarios</div>
+            <div></div><div></div>
+            <div style="padding:2px 3px;grid-column:span 2"><div style="background:#6B7280;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Ref → S23–S24 ──</div></div>
+            <div></div><div></div><div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:190px repeat(7,1fr);align-items:center;flex:1;background:#FDF8EE">
+            <div style="padding:3px 8px;font-size:8.5px;color:var(--amber);font-weight:600;border-right:1px solid var(--border-lt)">Migración Serv. Autoadmin. AWS</div>
+            <div></div>
+            <div style="padding:2px 3px;grid-column:span 3"><div style="background:#C07D1A;border-radius:3px;height:13px;font-size:7px;color:#fff;display:flex;align-items:center;padding:0 4px">Infra ─────────→</div></div>
+            <div></div><div></div><div></div>
+          </div>
+
+        </div>
+        <div style="padding:4px 8px;background:#F8FAFC;border-top:1px solid var(--border-lt);font-size:7.5px;color:var(--text-3);flex-shrink:0">Sprints: S21 25/05–05/06 · S22 08/06–19/06 · S23 22/06–03/07 · S24 06/07–17/07 · S25–S27 Julio–Agosto</div>
+      </div>
+
+      <!-- TICKETS PENDIENTES -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;overflow:hidden;display:flex;flex-direction:column;gap:5px;min-height:0">
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3)">Tickets Pendientes</div>
+
+        <div style="background:#FFF8E7;border:1px solid #F0D080;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#7A5000">#15135 · Campaña Incentivo Líneas PYMES</div>
+          <div style="color:var(--text-3)">Campañas · No visible en bandeja · En Progreso · SLA</div>
+        </div>
+
+        <div style="background:#FDF3F3;border:1px solid #E8C5C5;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#8B0000">#15125 · Dashboard Préstamos <span style="color:var(--red)">⚠ Vencido</span></div>
+          <div style="color:var(--text-3)">CTAs como "No Gestionados" — En Progreso</div>
+        </div>
+
+        <div style="background:#FDF3F3;border:1px solid #E8C5C5;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#8B0000">#15038 · Caja de Seguros <span style="color:var(--red)">⚠ Vencido</span></div>
+          <div style="color:var(--text-3)">FMC · Sin info para 10 clientes · En Progreso</div>
+        </div>
+
+        <div style="background:#FFF8E7;border:1px solid #F0D080;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#7A5000">#14961 · Reasignación CTAs</div>
+          <div style="color:var(--text-3)">Campañas · Exportación por página · SLA</div>
+        </div>
+
+        <div style="background:#FDF3F3;border:1px solid #E8C5C5;border-radius:4px;padding:5px 7px;font-size:8px;line-height:1.5">
+          <div style="font-weight:700;color:#8B0000">#14904 · Cliente Celso M. Fernández <span style="color:var(--red)">⚠ Vencido</span></div>
+          <div style="color:var(--text-3)">Mis Clientes · Cta 4828059 no visible en PRE PROD</div>
+        </div>
+
+        <div style="margin-top:2px;font-size:7.5px;color:var(--text-3)">3 tickets <strong style="color:var(--red)">vencidos</strong> · 2 en SLA</div>
+      </div>
+
+    
+  </div>
+  </div>
+</div>
+
+
+
+</div><!-- /deck -->
+
+
+
+<script>
+  let current = 0;
+  const TOTAL = 7;
+  const MAIN  = 4;
+
+  const dots = document.getElementById('dots');
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'ndot' + (i === 0 ? ' active' : '') + (i >= MAIN ? ' detail' : '');
+    d.onclick = () => goTo(i);
+    dots.appendChild(d);
+  }
+
+  function navigate(dir) { goTo(current + dir); }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    document.getElementById('s' + (current + 1)).classList.remove('active');
+    current = idx;
+    document.getElementById('s' + (current + 1)).classList.add('active');
+    dots.querySelectorAll('.ndot').forEach((d, i) => d.classList.toggle('active', i === current));
+    document.getElementById('btn-prev').disabled = current === 0;
+    document.getElementById('btn-next').disabled = current === TOTAL - 1;
+    document.getElementById('counter').textContent = current < MAIN
+      ? `${current + 1} / ${MAIN}`
+      : `Detalle · ${ ['Roadmap Assegur 06/2026','Basa','Sudameris'][current - MAIN] }`;
+  }
+
+  // ── EDICIÓN UNIVERSAL ──
+  // Elementos que NUNCA deben ser editables
+  const NO_EDIT_TAGS = new Set(['BUTTON','SCRIPT','STYLE','HTML','BODY','HEAD']);
+  const NO_EDIT_CLASSES = ['ctrl-btn','back-btn','ndot','badge'];
+
+  function isNoEdit(el) {
+    if (!el || NO_EDIT_TAGS.has(el.tagName)) return true;
+    if (NO_EDIT_CLASSES.some(c => el.classList.contains(c))) return true;
+    if (el.closest('button')) return true;
+    return false;
+  }
+
+  // Encuentra el nodo de texto más profundo bajo el punto de clic
+  function getLeafTextEl(target) {
+    // Si el elemento clickeado ya tiene solo texto (sin hijos elementos), úsalo
+    const hasOnlyText = [...target.childNodes].every(n => n.nodeType === Node.TEXT_NODE);
+    if (hasOnlyText && target.textContent.trim()) return target;
+    // Si tiene hijos mixtos, busca el hijo de texto más cercano al cursor
+    return target;
+  }
+
+  let activeEl = null;
+
+  function enableEdit(el) {
+    if (!el || isNoEdit(el)) return;
+    if (el === activeEl) return;
+    disableEdit();
+    activeEl = el;
+    el.setAttribute('contenteditable', 'true');
+    el.setAttribute('spellcheck', 'false');
+    el.style.outline = '2px solid rgba(59,110,165,0.35)';
+    el.style.outlineOffset = '2px';
+    el.style.borderRadius = '3px';
+    el.style.background = 'rgba(59,110,165,0.06)';
+    el.focus();
+    // Seleccionar todo el contenido al activar
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  function disableEdit() {
+    if (!activeEl) return;
+    activeEl.removeAttribute('contenteditable');
+    activeEl.style.outline = '';
+    activeEl.style.outlineOffset = '';
+    activeEl.style.borderRadius = '';
+    activeEl.style.background = '';
+    activeEl = null;
+  }
+
+  let editMode = false;
+
+  function handleClick(e) {
+    if (!editMode) return;
+    const target = e.target;
+    if (isNoEdit(target)) { disableEdit(); return; }
+    e.stopPropagation();
+    enableEdit(target);
+  }
+
+  function handleKeydown(e) {
+    if (!activeEl) return;
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      disableEdit();
+    }
+    if (e.key === 'Escape') {
+      disableEdit();
+    }
+    if (e.key === 'Tab') {
+      e.preventDefault();
+    }
+  }
+
+  function handleClickOutside(e) {
+    if (!activeEl) return;
+    if (!activeEl.contains(e.target)) disableEdit();
+  }
+
+  // Escuchar en el deck completo
+  document.querySelector('.deck').addEventListener('click', handleClick, true);
+  document.addEventListener('keydown', handleKeydown);
+  document.addEventListener('mousedown', handleClickOutside, true);
+
+  // ── BOTÓN EDITAR (referencia al elemento estático en HTML) ──
+  const editBtn = document.getElementById('btn-edit');
+
+
+  editBtn.addEventListener('click', () => {
+    editMode = !editMode;
+    if (editMode) {
+      editBtn.textContent = '✓ Listo';
+      editBtn.style.background = '#EAF3DE';
+      editBtn.style.color = '#2E7D6B';
+      editBtn.style.borderColor = '#A8D9C8';
+      document.getElementById('edit-hint').style.display = 'block';
+      document.querySelector('.deck').style.cursor = 'text';
+    } else {
+      disableEdit();
+      editBtn.textContent = '✏ Editar';
+      editBtn.style.background = '';
+      editBtn.style.color = '';
+      editBtn.style.borderColor = '';
+      document.getElementById('edit-hint').style.display = 'none';
+      document.querySelector('.deck').style.cursor = '';
+    }
+  });
+
+  // ══════════════════════════════════════════════════════════
+  // ☁  CONFIGURACIÓN JSONBIN
+  // ══════════════════════════════════════════════════════════
+  const JSONBIN_BIN_ID  = '6a23a27cf5f4af5e29c12823';
+  const JSONBIN_API_KEY = '$2a$10$5SOnXm8UQ4jVpqwpUwexpeQ/YnxwGpmNdgLvvPiSbBqGnE8JbAusi';
+  // ══════════════════════════════════════════════════════════
+
+  const JSONBIN_READ_URL  = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`;
+  const JSONBIN_WRITE_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+
+  // Cargar contenido desde la nube al abrir la página
+  async function loadFromCloud() {
+    try {
+      const res = await fetch(JSONBIN_READ_URL, {
+        headers: { 'X-Master-Key': JSONBIN_API_KEY }
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.record && data.record.deckHTML) {
+        document.querySelector('.deck').innerHTML = data.record.deckHTML;
+      }
+    } catch(e) {
+      console.warn('[CS Status] No se pudo cargar desde la nube:', e);
+    }
+  }
+
+  // ── BOTÓN GUARDAR — ahora guarda en la nube ──
+  const saveBtn = document.getElementById('btn-save');
+
+  saveBtn.addEventListener('click', async () => {
+    disableEdit();
+    editMode = false;
+    editBtn.textContent = '✏ Editar';
+    editBtn.style.background = '';
+    editBtn.style.color = '';
+    editBtn.style.borderColor = '';
+    document.getElementById('edit-hint').style.display = 'none';
+    document.querySelector('.deck').style.cursor = '';
+    document.querySelectorAll('[contenteditable]').forEach(el => {
+      el.removeAttribute('contenteditable');
+      el.style.outline = '';
+      el.style.outlineOffset = '';
+      el.style.background = '';
+      el.style.borderRadius = '';
+      el.style.cursor = '';
+    });
+
+    saveBtn.textContent = '⏳ Guardando...';
+    saveBtn.disabled = true;
+
+    try {
+      const deckHTML = document.querySelector('.deck').innerHTML;
+      const res = await fetch(JSONBIN_WRITE_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': JSONBIN_API_KEY
+        },
+        body: JSON.stringify({ deckHTML, savedAt: new Date().toISOString() })
+      });
+
+      if (res.ok) {
+        saveBtn.textContent = '✓ Guardado en la nube';
+        saveBtn.style.background = '#EAF3DE';
+        saveBtn.style.color = '#2E7D6B';
+        saveBtn.style.borderColor = '#A8D9C8';
+      } else {
+        throw new Error('HTTP ' + res.status);
+      }
+    } catch(e) {
+      console.error('[CS Status] Error al guardar:', e);
+      saveBtn.textContent = '⚠ Error al guardar';
+      saveBtn.style.background = '#FDF3F0';
+      saveBtn.style.color = '#B85042';
+      saveBtn.style.borderColor = '#B85042';
+    }
+
+    saveBtn.disabled = false;
+    setTimeout(() => {
+      saveBtn.textContent = '☁ Guardar';
+      saveBtn.style.background = '';
+      saveBtn.style.color = '#3B6EA5';
+      saveBtn.style.borderColor = '#3B6EA5';
+    }, 3000);
+  });
+
+  // Cargar contenido desde la nube al iniciar la página
+
+  loadFromCloud();
+</script>
+</body>
+</html>
